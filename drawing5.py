@@ -32,7 +32,8 @@ def line(event):
         capturey.append(y2)        
         canvas.create_line(x1,y1,x2,y2, fill = "black", width = 10)
         x1 = x2
-        y1 = y2 
+        y1 = y2
+
 
 
     
@@ -43,3 +44,11 @@ root.mainloop()
 
 print(capturex)
 print(capturey)
+
+bboxx = max(capturex)
+bboxy = max(capturey)
+bboxx2 = min(capturex)
+bboxy2 = min(capturey)
+
+print(bboxx)
+print(bboxy)
