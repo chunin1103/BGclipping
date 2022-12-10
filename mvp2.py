@@ -2,44 +2,34 @@ from rembg import remove
 import pyscreenshot
 import tkinter as tk 
 from tkinter import *
-from PIL import Image
+from PIL import Image, ImageTk
 
-# dig this one: https://www.youtube.com/watch?v=4ehHuDDH-uc
-
+# Create a fullscreen canvas
 root = tk.Tk()
-# root.attributes("-fullscreen", True)
 w, h = root.winfo_screenwidth(), root.winfo_screenheight()
-canvas = tk.Canvas(root, width=400, height=400)
-root.geometry("%dx%d+0+0" % (w, h))
+canvas = tk.Canvas(root, width = w, height =h)
+canvas.pack(fill='both', expand = 1, pady=20) 
 
-# root.geometry("500x500")
-# Tk.attributes("-fullscreen", True)
-# Grab the initial screenshot 
+# Grab the initial fullscreen screenshot
 ini_im = pyscreenshot.grab()
 ini_im.thumbnail((1200,1200), Image.ANTIALIAS)
 
-# To save the screenshot
+# Save the screenshot
 ini_im.save("Testing.png")
 
 # open the screenshot
-bg = PhotoImage(file = "Testing.png")
-
 input_path ='Testing.png'
 im = Image.open(input_path)
+image = ImageTk.PhotoImage(im)
 
-label1 = Label( root, image = bg)
-label1.place(x = 0,y = 0)
-label2 = Label( root, text = "Welcome",
-               bg = "#88cffa")
-canvas = tk.Canvas(root, width = 400, height =400)
-canvas.pack(pady=20, fill=None)
-# Specify a location of that image
-# im=pyscreenshot.grab(bbox=(X1,Y1,X2,Y2))
-# im = pyscreenshot.grab(bbox=(100, 50, 1000, 1000)) 
+# create image as background of screenshot and anchor it to 0,0 cordination (important!)
+canvas.create_image(0,0, image = image, anchor ='nw')
 
-# im = remove(im)
-# To view the screenshot
+# Show it so that after, we can draw on it
 im.show()
+
+
+# open the canvas and start drawing
 
 click_number = 0
 
@@ -61,7 +51,9 @@ def line(event):
     
     else:
         x2 = event.x
-        y2 = event.y 
+        y2 = event.y
+        print(x2)
+        print(y2) 
         capturex.append(x1)
         capturex.append(x2)
         capturey.append(y1)
@@ -84,3 +76,13 @@ bboxy2 = min(capturey)
 
 print(bboxx)
 print(bboxy)
+print(bboxy2)
+print(bboxx2)
+
+# Specify a location of that image
+im=pyscreenshot.grab(bbox=(bboxx2,bboxy2,bboxx,bboxy))
+im.show()
+# im = pyscreenshot.grab(bbox=(100, 50, 1000, 1000)) 
+
+# im = remove(im)
+# To view the screenshot
